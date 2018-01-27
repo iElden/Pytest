@@ -2,25 +2,32 @@
 
 from src import display
 from src import add
+from src import start
+import signal
 import sys
 import os
 
-def default():
-    print("1. Lancer les tests")
-    print("2. Créer un nouveau test")
-    print("3. Afficher les tests")
-    choice = input()
-    if choice == '1': return(0)
-    if choice == '2': add.add([""])
-    if choice == '3': display.display()
+def exit(signal,frame):
+    print("")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, exit)
+
+def default(choice):
+    if not choice:
+        print("1. Lancer les tests (start)")
+        print("2. Créer un nouveau test (add)")
+        print("3. Afficher les tests (list)")
+        print("4. Quitter (exit)")
+        choice = input("> ")
+        print("")
+    if choice in ['1',"start"]: start.start()
+    if choice in ['2',"add"  ]: add.add([""])
+    if choice in ['3',"list" ]: display.display()
+    if choice in ['4',"exit" ]: sys.exit(0)
+    choice = ""
 
 if len(sys.argv) >= 2 : mode = sys.argv[1]
 else                  : mode = ""
-
-if mode == "add":
-    add.add(sys.argv)
-elif mode in ["list","display","show"]:
-    display.display()
-else :
-    while True:
-        default()
+while True:
+    default(mode)

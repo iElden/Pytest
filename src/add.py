@@ -1,5 +1,18 @@
 from src import load
 
+class Tests:
+    def __init__(self,inp,code,outpout,name=""):
+        self.inp = inp
+        self.code = code
+        self.outpout = outpout
+        self.name = name
+    def return_list(self):
+        if self.name:
+            return([self.inp,self.code,self.outpout,self.name])
+        else:
+            return([self.inp,self.code,self.outpout])
+
+
 def add(argv):
     tests = load.load()
     if len(argv) <= 2:
@@ -11,7 +24,7 @@ def add(argv):
     else:
         code = int(argv[3])
     if len(argv) <= 4:
-        outpout = input("Quelle est la sortie attendu >")
+        outpout = input_outp()
     else:
         outpout = argv[4]
     if len(argv) > 5:
@@ -19,10 +32,10 @@ def add(argv):
     else:
         name = input_name()
     if name:
-        tests.append([inp,code,outpout,name])
+        tests.append(Tests(inp,code,outpout,name))
     else:
-        tests.append([inp,code,outpout])
-    save(tests)
+        tests.append(Tests(inp,code,outpout))
+    load.save(tests)
 
 def input_inp():
     print("Input du test :")

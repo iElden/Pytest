@@ -1,0 +1,4 @@
+*.pytst
+tests
+*~
+*#
