@@ -1,4 +1,5 @@
 *.pytst
-tests
+1;4803;0ctests
 *~
 *#
+*.pyc
