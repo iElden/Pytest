@@ -11,14 +11,18 @@ def start():
     tests = load.load()
     param = load.param()
     if param["compile"]:
+        print("\n== COMPILATION ==\n")
         rt = subprocess.run(["make","re"])
         if rt.returncode != 0:
             print(message["crash"],"make failed")
             sys.exit(0)
+    print("\n== TESTS ==\n")
     for test in tests:
         print(test.name,end=" : ")
         try :
-            rt = subprocess.run([param["bin_name"],test.inp],timeout=param["timeout"])
+            rt = subprocess.run(["./" + param["bin_name"],test.inp],timeout=param["timeout"],
+            stdout=subprocess.PIPE)
+            outpout = rt.stdout.decode("utf-8")
         except TimeoutExpired:
             print(message["crash"],"\ntimeout")
             result["crash"] += 1
@@ -29,10 +33,10 @@ def start():
             result["crash"] += 1
         if rt.returncode != test.code:
             print(message["fail"],"\nCode attendu : {}\n Code reçu : {}"
-                  .format(str(rt.returncode),str(test.code)))
+                  .format(str(test.code),str(rt.returncode)))
             result["fail"] += 1
-        elif rt.stdout != test.outpout:
-            print(message["fail"],"\nAttendu : {}\nReçu : {}".format(rt.stdout,test.outpout))
+        elif outpout != test.outpout:
+            print(message["fail"],"\nAttendu : {}\nReçu : {}".format(test.outpout,outpout))
             result["fail"] += 1
         else:
             print(message["succes"])

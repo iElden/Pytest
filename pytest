@@ -21,13 +21,17 @@ def default(choice):
         print("4. Quitter (exit)")
         choice = input("> ")
         print("")
-    if choice in ['1',"start"]: start.start()
-    if choice in ['2',"add"  ]: add.add([""])
-    if choice in ['3',"list" ]: display.display()
-    if choice in ['4',"exit" ]: sys.exit(0)
+    if choice in ['1','s',"start"]: start.start()
+    if choice in ['2','a',"add"  ]: add.add([""])
+    if choice in ['3','l',"list" ]: display.display()
+    if choice in ['4','q',"exit" ]: sys.exit(0)
     choice = ""
 
-if len(sys.argv) >= 2 : mode = sys.argv[1]
-else                  : mode = ""
+if len(sys.argv) >= 2 :
+    mode = sys.argv[1]
+else                  :
+    mode = ""
+
 while True:
     default(mode)
+    if mode : sys.exit(0)

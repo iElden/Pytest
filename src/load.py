@@ -5,6 +5,7 @@ import traceback
 
 class Tests:
     def __init__(self,inp,code,outpout,name):
+        outpout = outpout.replace("\\n","\n")
         self.inp = inp
         self.code = code
         self.outpout = outpout
@@ -48,7 +49,7 @@ def load():
 
 def save(tests):
     fd = open("tests/test.pytst",'w')
-    fd.write(json.dumps([test.return_list() for test in tests]))
+    fd.write(json.dumps([test.return_list() for test in tests],indent="  "))
     fd.close()
     
 def create_file():
