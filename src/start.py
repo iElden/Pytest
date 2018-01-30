@@ -1,6 +1,7 @@
 from src import load
 import subprocess
 import sys
+import shlex
 
 message = {"succes":"\x1B[92;49mSUCCES\x1B[0m",
            "fail"  :"\x1B[93;49mFAIL\x1B[0m",
@@ -20,7 +21,7 @@ def start():
     for test in tests:
         print(test.name,end=" : ")
         try :
-            rt = subprocess.run(["./" + param["bin_name"],test.inp],timeout=param["timeout"],
+            rt = subprocess.run(["./" + param["bin_name"]] + shlex.split(test.inp),timeout=param["timeout"],
             stdout=subprocess.PIPE)
             outpout = rt.stdout.decode("utf-8")
         except TimeoutExpired:
