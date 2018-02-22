@@ -53,7 +53,8 @@ def save(tests):
     fd.close()
     
 def create_file():
-    os.mkdir("tests")
+    try : os.mkdir("tests")
+    except : print("Dossier Tests déjà existant ...")
     fd = open("tests/test.pytst",'w')
     fd.write("[]")
     fd.close()
