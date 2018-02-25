@@ -3,9 +3,9 @@ import subprocess
 import sys
 import shlex
 
-message = {"succes":"\x1B[92;49mSUCCESS\x1B[0m\n",
-           "fail"  :"\x1B[93;49mFAIL\x1B[0m\n",
-           "crash" :"\x1B[91;49mCRASH\x1B[0m\n"}
+message = {"succes":"\x1B[92;49mSUCCESS\x1B[0m",
+           "fail"  :"\x1B[93;49mFAIL\x1B[0m",
+           "crash" :"\x1B[91;49mCRASH\x1B[0m"}
 
 def start():
     result = {"ok":0,"fail":0,"crash":0}
@@ -24,20 +24,20 @@ def start():
             rt = subprocess.run(["./" + param["bin_name"]] + shlex.split(test.inp),timeout=param["timeout"],
             stdout=subprocess.PIPE)
             outpout = rt.stdout.decode("utf-8")
-        except TimeoutExpired:
-            print(message["crash"],"\ntimeout")
+        except:
+            print(message["crash"],"\nTimeout\n")
             result["crash"] += 1
             continue
         if rt.returncode < 0:
-            print(message["crash"],"\nLe programme à reçu le signal {} {}".format(
+            print(message["crash"],"\nLe programme à reçu le signal {} {}\n".format(
                 str(abs(rt.returncode)),"(Segmentation Fault)" if rt.returncode == -11 else ""))
             result["crash"] += 1
         elif rt.returncode != test.code:
-            print(message["fail"],"\nCode attendu : {}\n Code reçu : {}"
+            print(message["fail"],"\nCode attendu : {}\n Code reçu : {}\n"
                   .format(str(test.code),str(rt.returncode)))
             result["fail"] += 1
         elif outpout != test.outpout and test.outpout:
-            print(message["fail"],"\nAttendu : {}\nReçu : {}".format(test.outpout,outpout))
+            print(message["fail"],"\nAttendu : {}\nReçu : {}\n".format(test.outpout,outpout))
             result["fail"] += 1
         else:
             print(message["succes"])
