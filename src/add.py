@@ -49,9 +49,9 @@ def input_code():
     return(int(code))
 
 def input_outp():
-    print("Sortie attendu (Laissez vide pour tester uniquement le code retour) :")
+    print("Sortie attendue (Laissez vide pour tester uniquement le code retour) :")
     return(input("> "))
 
 def input_name():
-    print("Quelle est le nom du test (optionnel)")
+    print("Quel est le nom du test (optionnel)")
     return(input("> "))
