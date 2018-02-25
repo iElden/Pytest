@@ -22,26 +22,27 @@ def start():
         print(test.name,end=" : ")
         try :
             rt = subprocess.run(["./" + param["bin_name"]] + shlex.split(test.inp),timeout=param["timeout"],
-            stdout=subprocess.PIPE)
+                                stdout=subprocess.PIPE,stderr=subprocess.PIPE)
             outpout = rt.stdout.decode("utf-8")
         except:
-            print(message["crash"],"\nTimeout\n")
+            print(message["crash"],"\nTimeout")
             result["crash"] += 1
             continue
         if rt.returncode < 0:
-            print(message["crash"],"\nLe programme à reçu le signal {} {}\n".format(
+            print(message["crash"],"\nLe programme à reçu le signal {} {}".format(
                 str(abs(rt.returncode)),"(Segmentation Fault)" if rt.returncode == -11 else ""))
             result["crash"] += 1
         elif rt.returncode != test.code:
-            print(message["fail"],"\nCode attendu : {}\n Code reçu : {}\n"
+            print(message["fail"],"\nCode attendu : {}\nCode reçu : {}"
                   .format(str(test.code),str(rt.returncode)))
             result["fail"] += 1
         elif outpout != test.outpout and test.outpout:
-            print(message["fail"],"\nAttendu : {}\nReçu : {}\n".format(test.outpout,outpout))
+            print(message["fail"],"\nAttendu : {}\nReçu : {}".format(test.outpout,outpout))
             result["fail"] += 1
         else:
             print(message["succes"])
             result["ok"] += 1
+        print("")
     print(message["succes"],result["ok"],
           message["fail"],result["fail"],
           message["crash"],result["crash"])
