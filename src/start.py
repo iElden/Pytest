@@ -25,7 +25,7 @@ def start():
                                 stdout=subprocess.PIPE,stderr=subprocess.PIPE)
             outpout = rt.stdout.decode("utf-8")
         except:
-            print(message["crash"],"\nTimeout")
+            print(message["crash"],"\nTimeout\n")
             result["crash"] += 1
             continue
         if rt.returncode < 0:
